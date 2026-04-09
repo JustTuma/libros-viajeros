@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Libros Viajeros 📚</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral:   #FF7F7F;
+      --teal:    #5EC4C0;
+      --purple:  #A78BFA;
+      --mint:    #6EE7B7;
+      --yellow:  #FCD34D;
+      --peach:   #FDBA74;
+      --blue:    #60A5FA;
+      --pink:    #F9A8D4;
+      --bg:      #F8F4FF;
+      --card:    #FFFFFF;
+      --text:    #3D3557;
+      --subtext: #7C6FA0;
+      --border:  #E5DEFF;
+      --shadow:  0 4px 20px rgba(100,80,180,0.10);
+      --radius:  18px;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 90px;
+    }
+
+    /* ── HEADER ─────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #A78BFA 0%, #60A5FA 60%, #6EE7B7 100%);
+      padding: 22px 20px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='30' cy='30' r='12'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: relative;
+    }
+    header p.subtitle {
+      color: rgba(255,255,255,0.88);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 4px;
+      position: relative;
+    }
+
+    /* ── MAIN ────────────────────────────────── */
+    main {
+      max-width: 640px;
+      margin: -40px auto 0;
+      padding: 0 16px;
+    }
+
+    /* ── TABS ────────────────────────────────── */
+    .tabs {
+      display: flex;
+      background: var(--card);
+      border-radius: 50px;
+      padding: 5px;
+      box-shadow: var(--shadow);
+      margin-bottom: 22px;
+    }
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px 6px;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--subtext);
+      cursor: pointer;
+      transition: all .25s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+    .tab-btn span.icon { font-size: 1.3rem; }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #A78BFA, #60A5FA);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(167,139,250,0.4);
+    }
+
+    /* ── SECTIONS ────────────────────────────── */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ── CARD ────────────────────────────────── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--border);
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── BADGES / PILLS ──────────────────────── */
+    .badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* ── LISTS ───────────────────────────────── */
+    .item-list { display: flex; flex-direction: column; gap: 10px; }
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      animation: slideIn .2s ease;
+    }
+    @keyframes slideIn {
+      from { opacity:0; transform: translateY(-8px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    .item-row .avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .item-row .info { flex: 1; min-width: 0; }
+    .item-row .info strong { display: block; font-size: 0.92rem; font-weight: 700; }
+    .item-row .info small { font-size: 0.78rem; color: var(--subtext); }
+    .btn-icon {
+      border: none; background: none; cursor: pointer;
+      font-size: 1.1rem; padding: 4px; border-radius: 8px;
+      transition: background .2s;
+    }
+    .btn-icon:hover { background: #f0e8ff; }
+
+    /* ── INPUTS ──────────────────────────────── */
+    .input-row {
+      display: flex; gap: 8px; margin-top: 14px;
+    }
+    .input-row input {
+      flex: 1;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .input-row input:focus { border-color: var(--purple); }
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+    }
+    .btn:active { transform: scale(0.96); }
+    .btn-primary {
+      background: linear-gradient(135deg, #A78BFA, #60A5FA);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(167,139,250,0.35);
+    }
+    .btn-success {
+      background: linear-gradient(135deg, #6EE7B7, #5EC4C0);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(94,196,192,0.35);
+    }
+    .btn-danger {
+      background: linear-gradient(135deg, #FF7F7F, #FDBA74);
+      color: #fff;
+    }
+    .btn-block {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: 14px;
+    }
+
+    /* ── ASSIGNMENT CARDS ────────────────────── */
+    .assign-card {
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+      animation: slideIn .25s ease;
+    }
+    .assign-card .stu-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .assign-card .stu-name { font-weight: 800; font-size: 0.95rem; }
+    .assign-card .book-name { font-size: 0.82rem; color: var(--subtext); font-weight: 600; margin-top: 1px; }
+
+    /* ── HISTORIAL ───────────────────────────── */
+    .history-week {
+      margin-bottom: 20px;
+    }
+    .history-week h3 {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--subtext);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── STATS ───────────────────────────────── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .stat-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--border);
+    }
+    .stat-card .stat-num {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .stat-card .stat-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--subtext);
+      margin-top: 4px;
+    }
+
+    /* ── DATE CHIP ───────────────────────────── */
+    .date-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #A78BFA22, #60A5FA22);
+      border: 1.5px solid var(--purple);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--purple);
+      margin-bottom: 16px;
+    }
+
+    /* ── EMPTY STATE ─────────────────────────── */
+    .empty {
+      text-align: center;
+      padding: 30px 20px;
+      color: var(--subtext);
+    }
+    .empty .empty-icon { font-size: 3rem; margin-bottom: 10px; }
+    .empty p { font-size: 0.9rem; font-weight: 600; }
+
+    /* ── TOAST ───────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      opacity: 0;
+      transition: all .3s;
+      z-index: 999;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── MODAL ───────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(61,53,87,0.4);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 500;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 24px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 20px 60px rgba(100,80,180,0.25);
+      transform: scale(0.9);
+      transition: transform .25s;
+    }
+    .modal-overlay.open .modal { transform: scale(1); }
+    .modal h3 {
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+    .modal p { font-size: 0.88rem; color: var(--subtext); font-weight: 600; margin-bottom: 20px; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+    .modal-actions .btn { flex: 1; }
+
+    /* ── PROGRESS BAR ────────────────────────── */
+    .progress-wrap {
+      background: var(--border);
+      border-radius: 50px;
+      height: 8px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, #A78BFA, #60A5FA);
+      transition: width .4s ease;
+    }
+
+    /* ── COLORS array used via JS ────────────── */
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📚 Libros Viajeros</h1>
+  <p class="subtitle">Cada viernes, un libro nuevo</p>
+</header>
+
+<main>
+  <!-- TABS -->
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('inicio')" role="tab">
+      <span class="icon">🏠</span>Inicio
+    </button>
+    <button class="tab-btn" onclick="switchTab('alumnos')" role="tab">
+      <span class="icon">👧</span>Alumnos
+    </button>
+    <button class="tab-btn" onclick="switchTab('libros')" role="tab">
+      <span class="icon">📖</span>Libros
+    </button>
+    <button class="tab-btn" onclick="switchTab('historial')" role="tab">
+      <span class="icon">🗓️</span>Historial
+    </button>
+  </div>
+
+  <!-- ══════════════ INICIO ══════════════ -->
+  <section id="sec-inicio" class="section active">
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-alumnos" style="color:#A78BFA">0</div>
+        <div class="stat-label">Alumnos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-libros" style="color:#5EC4C0">0</div>
+        <div class="stat-label">Libros</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="date-chip" id="next-friday-chip">📅 Calculando...</div>
+      <h2>📋 Asignación del Viernes</h2>
+      <div id="assign-preview">
+        <div class="empty">
+          <div class="empty-icon">✨</div>
+          <p>Presioná el botón para generar<br>la asignación de esta semana.</p>
+        </div>
+      </div>
+      <button class="btn btn-success btn-block" style="margin-top:14px" onclick="openAssignModal()">
+        🎲 Generar Asignación
+      </button>
+    </div>
+
+    <!-- Resumen del año -->
+    <div class="card">
+      <h2>📊 Progreso del Año <span id="year-label" class="badge" style="background:#A78BFA;font-size:0.75rem"></span></h2>
+      <div id="year-progress"></div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════ ALUMNOS ══════════════ -->
+  <section id="sec-alumnos" class="section">
+    <div class="card">
+      <h2>👧 Mis Alumnos</h2>
+      <div id="alumnos-list" class="item-list">
+        <div class="empty"><div class="empty-icon">🌱</div><p>Aún no hay alumnos.<br>¡Agregá el primero!</p></div>
+      </div>
+      <div class="input-row">
+        <input id="new-alumno" type="text" placeholder="Nombre del alumno..." maxlength="40"
+               onkeydown="if(event.key==='Enter') addAlumno()" />
+        <button class="btn btn-primary" onclick="addAlumno()">+ Agregar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ LIBROS ══════════════ -->
+  <section id="sec-libros" class="section">
+    <div class="card">
+      <h2>📖 Biblioteca</h2>
+      <div id="libros-list" class="item-list">
+        <div class="empty"><div class="empty-icon">📚</div><p>Aún no hay libros.<br>¡Agregá el primero!</p></div>
+      </div>
+      <div class="input-row" style="flex-direction:column; gap:8px;">
+        <input id="new-libro-titulo" type="text" placeholder="Título del libro..." maxlength="80"
+               onkeydown="if(event.key==='Enter') document.getElementById('new-libro-autor').focus()" />
+        <input id="new-libro-autor" type="text" placeholder="Autor (opcional)..." maxlength="60"
+               onkeydown="if(event.key==='Enter') addLibro()" />
+        <select id="new-libro-estado" style="border:2px solid var(--border);border-radius:12px;padding:10px 14px;font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:600;color:var(--text);background:var(--bg);outline:none;">
+          <option value="nuevo">🟢 Nuevo</option>
+          <option value="desgastado">🟡 Desgastado</option>
+          <option value="reparado">🔧 Con arreglos/cinta</option>
+        </select>
+        <button class="btn btn-primary btn-block" onclick="addLibro()">+ Agregar libro</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ HISTORIAL ══════════════ -->
+  <section id="sec-historial" class="section">
+    <div class="card">
+      <h2>🗓️ Historial de Entregas</h2>
+      <div id="historial-content">
+        <div class="empty"><div class="empty-icon">🔍</div><p>Todavía no hay asignaciones guardadas.</p></div>
+      </div>
+    </div>
+    <button class="btn btn-danger btn-block" style="margin-bottom:8px" onclick="openResetModal()">
+      🔄 Reiniciar año escolar
+    </button>
+  </section>
+
+</main>
+
+<!-- ══════════════ MODAL: CONFIRMAR ASIGNACIÓN ══════════════ -->
+<div class="modal-overlay" id="assign-modal">
+  <div class="modal">
+    <h3>🎲 Nueva Asignación</h3>
+    <p id="assign-modal-desc">¿Generar la asignación para el viernes?</p>
+    <div id="assign-modal-preview" style="max-height:300px;overflow-y:auto;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="confirmAssign()">✅ Confirmar</button>
+      <button class="btn" style="background:var(--border);color:var(--text);" onclick="closeModal('assign-modal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ MODAL: RESETEAR AÑO ══════════════ -->
+<div class="modal-overlay" id="reset-modal">
+  <div class="modal">
+    <h3>🔄 Nuevo Año Escolar</h3>
+    <p>Esto eliminará todo el historial del año actual. Los alumnos y libros se conservan.<br><br>¿Estás segura?</p>
+    <div class="modal-actions">
+      <button class="btn btn-danger" onclick="resetYear()">Sí, reiniciar</button>
+      <button class="btn" style="background:var(--border);color:var(--text);" onclick="closeModal('reset-modal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ MODAL: ELIMINAR ══════════════ -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal">
+    <h3 id="delete-modal-title">¿Eliminar?</h3>
+    <p id="delete-modal-desc">Esta acción no se puede deshacer.</p>
+    <div class="modal-actions">
+      <button class="btn btn-danger" id="delete-confirm-btn">Eliminar</button>
+      <button class="btn" style="background:var(--border);color:var(--text);" onclick="closeModal('delete-modal')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  DATA & STORAGE
+// ═══════════════════════════════════════════════════════════
+const COLORS = [
+  '#A78BFA','#60A5FA','#5EC4C0','#FF7F7F',
+  '#FDBA74','#6EE7B7','#F9A8D4','#FCD34D',
+  '#C4B5FD','#93C5FD','#86EFAC','#FCA5A5',
+];
+const BOOK_EMOJIS = ['📗','📘','📕','📙','📒','📓','📔'];
+
+function getColor(idx) { return COLORS[idx % COLORS.length]; }
+function getBookEmoji(idx) { return BOOK_EMOJIS[idx % BOOK_EMOJIS.length]; }
+function initials(name) {
+  return name.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+}
+
+function load(key, def) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? def; } catch { return def; }
+}
+function save(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+let state = {
+  alumnos:     load('lv_alumnos', []),
+  libros:      load('lv_libros', []),
+  assignments: load('lv_assignments', []),
+  currentYear: load('lv_year', new Date().getFullYear()),
+};
+
+function persist() {
+  save('lv_alumnos',     state.alumnos);
+  save('lv_libros',      state.libros);
+  save('lv_assignments', state.assignments);
+  save('lv_year',        state.currentYear);
+}
+
+let pendingAssignment = null;
+
+// ═══════════════════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════════════════
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function nextFriday() {
+  const d = new Date();
+  const day = d.getDay(); // 0=Sun, 5=Fri
+  const diff = (5 - day + 7) % 7 || 7;
+  d.setDate(d.getDate() + diff);
+  return d;
+}
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+
+function toDateStr(d) {
+  return d.toISOString().slice(0,10);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + tab).classList.add('active');
+  const idx = ['inicio','alumnos','libros','historial'].indexOf(tab);
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+  renderAll();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ALUMNOS
+// ═══════════════════════════════════════════════════════════
+function addAlumno() {
+  const inp = document.getElementById('new-alumno');
+  const name = inp.value.trim();
+  if (!name) return;
+  state.alumnos.push({ id: uid(), name });
+  inp.value = '';
+  persist();
+  renderAll();
+  showToast('✅ Alumno agregado');
+}
+
+function confirmDeleteAlumno(id) {
+  const a = state.alumnos.find(x=>x.id===id);
+  openDeleteModal(`¿Eliminar a ${a?.name}?`, 'También se eliminará su historial de libros.', () => {
+    state.alumnos = state.alumnos.filter(x=>x.id!==id);
+    state.assignments.forEach(asg => {
+      asg.items = asg.items.filter(i=>i.studentId!==id);
+    });
+    state.assignments = state.assignments.filter(a=>a.items.length>0);
+    persist();
+    renderAll();
+    showToast('🗑️ Alumno eliminado');
+  });
+}
+
+function renderAlumnos() {
+  const el = document.getElementById('alumnos-list');
+  if (!state.alumnos.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🌱</div><p>Aún no hay alumnos.<br>¡Agregá el primero!</p></div>';
+    return;
+  }
+  el.innerHTML = state.alumnos.map((a,i) => `
+    <div class="item-row">
+      <div class="avatar" style="background:${getColor(i)}">${initials(a.name)}</div>
+      <div class="info">
+        <strong>${a.name}</strong>
+        <small>${booksThisYear(a.id)} libro(s) llevado(s) este año</small>
+        <div class="progress-wrap" style="margin-top:4px">
+          <div class="progress-bar" style="width:${progressPct(a.id)}%"></div>
+        </div>
+      </div>
+      <button class="btn-icon" onclick="confirmDeleteAlumno('${a.id}')" title="Eliminar">🗑️</button>
+    </div>
+  `).join('');
+}
+
+function booksThisYear(studentId) {
+  let count = 0;
+  state.assignments
+    .filter(a=>a.year===state.currentYear)
+    .forEach(a=>{ if(a.items.some(i=>i.studentId===studentId)) count++; });
+  return count;
+}
+
+function progressPct(studentId) {
+  if (!state.libros.length) return 0;
+  return Math.round((booksThisYear(studentId) / state.libros.length) * 100);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LIBROS
+// ═══════════════════════════════════════════════════════════
+function addLibro() {
+  const title = document.getElementById('new-libro-titulo').value.trim();
+  const author = document.getElementById('new-libro-autor').value.trim();
+  const condition = document.getElementById('new-libro-estado').value;
+  if (!title) return;
+  state.libros.push({ id: uid(), title, author, condition });
+  document.getElementById('new-libro-titulo').value = '';
+  document.getElementById('new-libro-autor').value = '';
+  document.getElementById('new-libro-estado').value = 'nuevo';
+  persist();
+  renderAll();
+  showToast('✅ Libro agregado');
+}
+
+function confirmDeleteLibro(id) {
+  const l = state.libros.find(x=>x.id===id);
+  openDeleteModal(`¿Eliminar "${l?.title}"?`, 'El libro se quitará del historial también.', () => {
+    state.libros = state.libros.filter(x=>x.id!==id);
+    state.assignments.forEach(asg => {
+      asg.items = asg.items.filter(i=>i.bookId!==id);
+    });
+    state.assignments = state.assignments.filter(a=>a.items.length>0);
+    persist();
+    renderAll();
+    showToast('🗑️ Libro eliminado');
+  });
+}
+
+function renderLibros() {
+  const el = document.getElementById('libros-list');
+  if (!state.libros.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">📚</div><p>Aún no hay libros.<br>¡Agregá el primero!</p></div>';
+    return;
+  }
+  const condBadge = c => ({ nuevo:'🟢', desgastado:'🟡', reparado:'🔧' })[c] || '🟡';
+  el.innerHTML = state.libros.map((l,i) => `
+    <div class="item-row">
+      <div class="avatar" style="font-size:1.3rem;background:none;color:var(--text)">${getBookEmoji(i)}</div>
+      <div class="info">
+        <strong>${l.title}</strong>
+        <small>${[l.author, condBadge(l.condition)].filter(Boolean).join(' · ')}</small>
+      </div>
+      <button class="btn-icon" onclick="confirmDeleteLibro('${l.id}')" title="Eliminar">🗑️</button>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ASSIGNMENT ALGORITHM
+// ═══════════════════════════════════════════════════════════
+function booksAssignedThisYear(studentId) {
+  const set = new Set();
+  state.assignments
+    .filter(a => a.year === state.currentYear)
+    .forEach(a => a.items.filter(i=>i.studentId===studentId).forEach(i=>set.add(i.bookId)));
+  return set;
+}
+
+function generateAssignment() {
+  if (!state.alumnos.length) return { error: 'Sin alumnos' };
+  if (!state.libros.length) return { error: 'Sin libros' };
+
+  const friday = nextFriday();
+  const dateStr = toDateStr(friday);
+
+  // Check if already exists for this date
+  const existing = state.assignments.find(a => a.date === dateStr);
+  if (existing) return { existing, dateStr };
+
+  const result = [];
+  const usedBooks = new Set(); // can't give same book to 2 students same week
+
+  // Shuffle students to randomize order
+  const students = [...state.alumnos].sort(() => Math.random() - 0.5);
+
+  for (const student of students) {
+    const alreadyHad = booksAssignedThisYear(student.id);
+    let available = state.libros.filter(b => !alreadyHad.has(b.id) && !usedBooks.has(b.id));
+
+    if (!available.length) {
+      // All books read this year — allow repeat (skip used this week)
+      available = state.libros.filter(b => !usedBooks.has(b.id));
+    }
+    if (!available.length) {
+      // All books assigned this week (more students than books!)
+      available = state.libros;
+    }
+
+    const book = available[Math.floor(Math.random() * available.length)];
+    usedBooks.add(book.id);
+    result.push({ studentId: student.id, bookId: book.id });
+  }
+
+  return { items: result, dateStr, year: friday.getFullYear() };
+}
+
+// ═══════════════════════════════════════════════════════════
+//  MODALS
+// ═══════════════════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function openAssignModal() {
+  if (!state.alumnos.length) { showToast('⚠️ Primero agregá alumnos'); return; }
+  if (!state.libros.length) { showToast('⚠️ Primero agregá libros'); return; }
+
+  const result = generateAssignment();
+
+  if (result.error) { showToast('⚠️ ' + result.error); return; }
+
+  if (result.existing) {
+    showToast('✅ Ya hay asignación para este viernes');
+    renderInicio();
+    return;
+  }
+
+  pendingAssignment = result;
+
+  const friday = new Date(result.dateStr + 'T12:00:00');
+  document.getElementById('assign-modal-desc').textContent =
+    'Asignación para el ' + friday.toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
+
+  const previewHTML = result.items.map((item, i) => {
+    const student = state.alumnos.find(a=>a.id===item.studentId);
+    const book = state.libros.find(b=>b.id===item.bookId);
+    const si = state.alumnos.indexOf(student);
+    return `
+      <div class="assign-card" style="background:${getColor(si)}18;border:1.5px solid ${getColor(si)}44">
+        <div class="stu-avatar" style="background:${getColor(si)}">${initials(student?.name||'?')}</div>
+        <div>
+          <div class="stu-name">${student?.name || 'Alumno'}</div>
+          <div class="book-name">${getBookEmoji(i)} ${book?.title || 'Libro'}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('assign-modal-preview').innerHTML = previewHTML;
+  openModal('assign-modal');
+}
+
+function confirmAssign() {
+  if (!pendingAssignment) return;
+  state.assignments.push({
+    id: uid(),
+    date: pendingAssignment.dateStr,
+    year: pendingAssignment.year,
+    items: pendingAssignment.items,
+  });
+  pendingAssignment = null;
+  persist();
+  closeModal('assign-modal');
+  renderAll();
+  showToast('🎉 ¡Asignación guardada!');
+}
+
+let _deleteCallback = null;
+function openDeleteModal(title, desc, cb) {
+  document.getElementById('delete-modal-title').textContent = title;
+  document.getElementById('delete-modal-desc').textContent = desc;
+  _deleteCallback = cb;
+  document.getElementById('delete-confirm-btn').onclick = () => {
+    if (_deleteCallback) _deleteCallback();
+    closeModal('delete-modal');
+  };
+  openModal('delete-modal');
+}
+
+function openResetModal() { openModal('reset-modal'); }
+
+function resetYear() {
+  state.assignments = [];
+  state.currentYear = new Date().getFullYear();
+  persist();
+  closeModal('reset-modal');
+  renderAll();
+  showToast('🔄 Año escolar reiniciado');
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if(e.target===el) el.classList.remove('open'); });
+});
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER INICIO
+// ═══════════════════════════════════════════════════════════
+function renderInicio() {
+  // Stats
+  document.getElementById('stat-alumnos').textContent = state.alumnos.length;
+  document.getElementById('stat-libros').textContent = state.libros.length;
+
+  // Next friday chip
+  const fri = nextFriday();
+  document.getElementById('next-friday-chip').innerHTML =
+    `📅 Próximo viernes: ${fri.toLocaleDateString('es-AR',{day:'numeric',month:'long'})}`;
+
+  // Year label
+  document.getElementById('year-label').textContent = state.currentYear;
+
+  // Show this friday's assignment if it exists
+  const dateStr = toDateStr(fri);
+  const thisFri = state.assignments.find(a=>a.date===dateStr);
+  const preview = document.getElementById('assign-preview');
+
+  if (thisFri) {
+    preview.innerHTML = thisFri.items.map((item,i) => {
+      const student = state.alumnos.find(a=>a.id===item.studentId);
+      const book = state.libros.find(b=>b.id===item.bookId);
+      const si = state.alumnos.indexOf(student);
+      return `
+        <div class="assign-card" style="background:${getColor(si)}18;border:1.5px solid ${getColor(si)}44">
+          <div class="stu-avatar" style="background:${getColor(si)}">${initials(student?.name||'?')}</div>
+          <div>
+            <div class="stu-name">${student?.name || 'Alumno'}</div>
+            <div class="book-name">${getBookEmoji(i)} ${book?.title || 'Libro'}</div>
+          </div>
+        </div>`;
+    }).join('') || '<div class="empty"><p>Sin items.</p></div>';
+  } else {
+    preview.innerHTML = `<div class="empty">
+      <div class="empty-icon">✨</div>
+      <p>Presioná el botón para generar<br>la asignación de esta semana.</p>
+    </div>`;
+  }
+
+  // Year progress per student
+  const yp = document.getElementById('year-progress');
+  if (!state.alumnos.length) {
+    yp.innerHTML = '<div class="empty"><p>Agregá alumnos para ver el progreso.</p></div>';
+  } else {
+    yp.innerHTML = state.alumnos.map((a,i) => {
+      const pct = progressPct(a.id);
+      const count = booksThisYear(a.id);
+      return `
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-size:0.85rem;font-weight:700">${a.name}</span>
+            <span style="font-size:0.8rem;color:var(--subtext);font-weight:600">${count}/${state.libros.length}</span>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-bar" style="width:${pct}%;background:linear-gradient(90deg,${getColor(i)},${getColor(i+3)})"></div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER HISTORIAL
+// ═══════════════════════════════════════════════════════════
+function renderHistorial() {
+  const el = document.getElementById('historial-content');
+  const yearAssigns = state.assignments
+    .filter(a=>a.year===state.currentYear)
+    .sort((a,b)=>b.date.localeCompare(a.date));
+
+  if (!yearAssigns.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><p>Todavía no hay asignaciones guardadas.</p></div>';
+    return;
+  }
+
+  el.innerHTML = yearAssigns.map(asg => `
+    <div class="history-week">
+      <h3>📅 ${formatDate(asg.date)}</h3>
+      ${asg.items.map((item,i) => {
+        const student = state.alumnos.find(a=>a.id===item.studentId);
+        const book = state.libros.find(b=>b.id===item.bookId);
+        const si = state.alumnos.indexOf(student);
+        return `
+          <div class="assign-card" style="background:${getColor(si)}18;border:1.5px solid ${getColor(si)}44">
+            <div class="stu-avatar" style="background:${getColor(si)}">${initials(student?.name||'?')}</div>
+            <div>
+              <div class="stu-name">${student?.name || '(eliminado)'}</div>
+              <div class="book-name">${getBookEmoji(i)} ${book?.title || '(eliminado)'}</div>
+            </div>
+          </div>`;
+      }).join('')}
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER ALL
+// ═══════════════════════════════════════════════════════════
+function renderAll() {
+  renderInicio();
+  renderAlumnos();
+  renderLibros();
+  renderHistorial();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LIBROS POR DEFECTO
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_BOOKS = [
+  { title: "La luna está llena", author: "Diego Bianki", condition: "desgastado" },
+  { title: "Vamos", author: "Claudia Legnazzi", condition: "desgastado" },
+  { title: "Very first numbers", author: "Usborne", condition: "desgastado" },
+  { title: "1 2 3 Usborne very first", author: "Usborne", condition: "reparado" },
+  { title: "Lift and look space", author: "Bloomsbury", condition: "reparado" },
+  { title: "One, two, peekaboo", author: "Georgie Birkett", condition: "reparado" },
+  { title: "Días de lluvia", author: "Fita Frattini", condition: "nuevo" },
+  { title: "Música de mar", author: "DiDi Grau, Loreto Salinas", condition: "reparado" },
+  { title: "You're my hungry little caterpillar", author: "", condition: "nuevo" },
+  { title: "Más alto, más abajo", author: "Luciana de Luca, Lu Paul", condition: "nuevo" },
+  { title: "Un ratón comilón", author: "Mercedes Rodrigué", condition: "reparado" },
+  { title: "Playtime picture play", author: "", condition: "desgastado" },
+  { title: "Baby's very first slide and see night time", author: "Usborne", condition: "reparado" },
+  { title: "Animal actions", author: "Julia Donaldson, Axel Scheffler", condition: "reparado" },
+  { title: "Mi cuerpo habla", author: "Patricia Fernández Bieberach / Margarita Valdés", condition: "desgastado" },
+  { title: "Night night little pookie", author: "Sandra Boynton", condition: "reparado" },
+  { title: "Los duendes de la tierra", author: "Sabina Á. Schürmann", condition: "reparado" },
+  { title: "Mi chupete, mi almohada", author: "Margarita Mainé y Nora Hilb", condition: "desgastado" },
+  { title: "El libro del osito", author: "Anthony Browne", condition: "reparado" },
+  { title: "Words hello baby", author: "", condition: "desgastado" },
+  { title: "Dormir sin almohada", author: "Jorge Luján, Natalia Colombo", condition: "desgastado" },
+  { title: "Baby's first words", author: "", condition: "reparado" },
+  { title: "Opuestos", author: "Sigmar", condition: "reparado" },
+  { title: "Pum", author: "Claudia Rueda", condition: "reparado" },
+  { title: "Arre arre caballito", author: "Pilar Muñoz Lascano / Matías Acosta", condition: "desgastado" },
+  { title: "Dinosauria en casa", author: "Laura Wittner / Mariana Ruiz Johnson", condition: "desgastado" },
+  { title: "El cartero barba con bolsillos", author: "Pablo Picyk", condition: "desgastado" },
+  { title: "That's not my robot", author: "Usborne touchy feely books", condition: "reparado" },
+  { title: "Que caiga un chaparrón", author: "Laura Wittner / Clau Degliuomini", condition: "desgastado" },
+  { title: "Luna y la luna", author: "Laura Wittner (Pum Pum)", condition: "desgastado" },
+  { title: "Baby's very first touchy feely animals book", author: "", condition: "desgastado" },
+  { title: "Violin", author: "Antonio Rubio y Óscar Villán", condition: "desgastado" },
+  { title: "Gastón ratón y gastoncito en un pozo muy oscuro", author: "Nora Hilb", condition: "desgastado" },
+  { title: "Bienviento", author: "Roberta Iannamico, Sabina Schürmann", condition: "reparado" },
+  { title: "The three little fish and the big shark", author: "Ken Geist, Julia Gorton", condition: "desgastado" },
+  { title: "Cinco", author: "Antonio Rubio y Óscar Villán", condition: "desgastado" },
+  { title: "Seek and find around the home", author: "", condition: "reparado" },
+  { title: "Gastón ratón y gastoncito salen de paseo", author: "Nora Hilb", condition: "reparado" },
+  { title: "Touchy and feel playbook", author: "Eric Carle", condition: "desgastado" },
+  { title: "El monstruo de colores", author: "Anna Llenas", condition: "desgastado" },
+  { title: "Hola adiós", author: "Delphine Chedru", condition: "desgastado" },
+  { title: "Faces hello baby", author: "", condition: "reparado" },
+  { title: "Quiero más", author: "Verónica Álvarez Rivera / Lu Paul", condition: "desgastado" },
+  { title: "Animals", author: "Usborne", condition: "desgastado" },
+  { title: "Días de sol", author: "Luciano Barberán, Fita Frattini", condition: "desgastado" },
+  { title: "Que orquesta es esta?", author: "Laura Wittner y Gustavo Aimar", condition: "nuevo" },
+  { title: "A mi altura", author: "Lucia y Paola Nardin", condition: "nuevo" },
+  { title: "Cómo se ríen?", author: "Roger Ycaza", condition: "nuevo" },
+  { title: "Ayuda bomberos", author: "Luciana Murzi y Lu Paul", condition: "nuevo" },
+  { title: "Chapuzón", author: "Maia Judith", condition: "nuevo" },
+  { title: "Grande grande", author: "María Luz Malamud / Lui Mort", condition: "nuevo" },
+  { title: "Tengo un librito", author: "Luciana de Luca y Marina Haller", condition: "nuevo" },
+  { title: "Música en el jardín", author: "Mariana Ruiz Johnson", condition: "nuevo" },
+  { title: "Una manzana", author: "Noe Garín", condition: "nuevo" },
+  { title: "Si soplo", author: "Melina Barrera y Sabina Schürmann", condition: "nuevo" },
+  { title: "La nana del ananá", author: "Gastón Caba", condition: "nuevo" },
+  { title: "Nicolon nicolasito", author: "Nicolás Schuff y Pablo I. Elías", condition: "nuevo" },
+  { title: "Un cuento de oso", author: "Anthony Browne", condition: "reparado" },
+  { title: "El conejo en la luna", author: "Emilio Ángel Lome, Daniela Martagón", condition: "reparado" },
+  { title: "Zum zum", author: "DiDi Grau, Christian Montenegro", condition: "desgastado" },
+  { title: "No es una caja", author: "Antoinette Portis", condition: "desgastado" },
+  { title: "Una flor para Monet", author: "Cecilia Blanco y Milton", condition: "desgastado" },
+  { title: "Goodnight moon", author: "Margaret Wise Brown", condition: "nuevo" },
+  { title: "El chupete perdido", author: "Walter Binder, Sonia Esplugas", condition: "reparado" },
+  { title: "Samba panda con osito", author: "Satoshi Iriyama", condition: "desgastado" },
+  { title: "Bajo la misma luna", author: "Jimmy Liao", condition: "desgastado" },
+  { title: "Linterna mágica", author: "Lizi Boyd", condition: "desgastado" },
+];
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+if (!state.libros.length) {
+  state.libros = DEFAULT_BOOKS.map(b => ({ id: uid(), ...b }));
+  persist();
+}
+
+renderAll();
+</script>
+</body>
+</html>
